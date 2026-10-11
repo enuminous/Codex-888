@@ -23,6 +23,15 @@ It also characterizes itself as both a computational artifact and philosophical 
 - Pages 55–80: recursive grammar, syntax, symbolic encoding, Python sketch, operations, rules, rituals, and construction set
 - Pages 81–87: Universal Declaration of Cognitive Rights
 
+## Lean source map
+
+The initial formalization uses pages 10–15 for the finite architecture,
+pages 59–60 for the six Appendix V expressions, and pages 55–56 and 66–69
+for selected grammar and rule obligations. The exact transcription choices,
+discrete specializations, and unresolved claims are documented in
+[LEAN_FORMALIZATION.md](LEAN_FORMALIZATION.md) and
+[PROOF_OBLIGATIONS.md](PROOF_OBLIGATIONS.md).
+
 ## Preservation principle
 
 The site keeps the manuscript's terminology and architecture intact while adding explicit status labels so that:

@@ -28,6 +28,13 @@ The manuscript contains:
 
 These can be implemented, simulated, formalized, or tested as software / mathematical objects.
 
+The repository now supplies a [Lean formal foundation](LEAN_FORMALIZATION.md)
+for finite registers, symbolic operators, a discrete recurrence, and selected
+transition policies. A successful build checks the stated mathematical and
+software properties under their explicit definitions. Analytic semantics,
+empirical validity, and the interpretation of supplied approval/coherence
+inputs remain separate obligations; see [PROOF_OBLIGATIONS.md](PROOF_OBLIGATIONS.md).
+
 ## Speculative physical claims
 
 The manuscript also proposes or suggests ideas such as:

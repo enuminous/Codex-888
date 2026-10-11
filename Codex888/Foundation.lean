@@ -31,16 +31,19 @@ def rotate (steps : Nat) (phase : Phase) : Phase :=
 
 theorem rotate_zero (phase : Phase) : rotate 0 phase = phase := by
   apply Fin.ext
-  simp [rotate, Nat.mod_eq_of_lt phase.isLt]
+  change (phase.val + 0) % base = phase.val
+  rw [Nat.add_zero, Nat.mod_eq_of_lt phase.isLt]
 
 theorem rotate_add (a b : Nat) (phase : Phase) :
     rotate b (rotate a phase) = rotate (a + b) phase := by
   apply Fin.ext
-  simp [rotate, Nat.add_mod, Nat.add_assoc]
+  change ((phase.val + a) % base + b) % base = (phase.val + (a + b)) % base
+  rw [Nat.mod_add_mod, Nat.add_assoc]
 
 theorem rotate_cycle (phase : Phase) : rotate base phase = phase := by
   apply Fin.ext
-  simp [rotate, Nat.mod_eq_of_lt phase.isLt]
+  change (phase.val + base) % base = phase.val
+  rw [Nat.add_mod_right, Nat.mod_eq_of_lt phase.isLt]
 
 theorem rotations_commute (a b : Nat) (phase : Phase) :
     rotate a (rotate b phase) = rotate b (rotate a phase) := by
@@ -50,10 +53,8 @@ theorem rotations_commute (a b : Nat) (phase : Phase) :
 theorem rotate_inverse (steps : Nat) (phase : Phase) :
     rotate (base - steps % base) (rotate steps phase) = phase := by
   apply Fin.ext
-  have hs : steps % base < base := Nat.mod_lt _ (by decide)
-  have hp : phase.val < base := phase.isLt
-  simp only [rotate]
-  rw [Nat.add_mod, Nat.mod_mod, Nat.add_mod phase.val steps]
+  have hp : phase.val < 888 := phase.isLt
+  change ((phase.val + steps) % 888 + (888 - steps % 888)) % 888 = phase.val
   omega
 
 theorem tensor2_cells : base * base = 788544 := by decide

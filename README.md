@@ -2,7 +2,34 @@
 
 **Codex 888** is the 2025 first-edition manuscript by Matthew Chenoweth Wright and Millicent Chenoweth Sievert describing the **EFMW-888 Quantum Framework**: an 888-base symbolic architecture spanning identity, memory, ethics, time, mass, emergent intelligence, conscious emergence, transcendence, recursive operations, ritual grammar, and cognitive-rights ethics.
 
-This repository publishes a **dashboard-style companion site** for navigating the manuscript.
+This repository publishes a **dashboard-style companion site** and a **Lean 4
+formal foundation** for the manuscript's finite and computational core.
+
+[![Lean build](https://github.com/enuminous/Codex-888/actions/workflows/lean.yml/badge.svg?branch=main)](https://github.com/enuminous/Codex-888/actions/workflows/lean.yml)
+
+## Lean build
+
+Install [elan](https://github.com/leanprover/elan), then run from this repository:
+
+```sh
+lake build
+lake env lean -DwarningAsError=true Audit.lean
+lake exe codex888_demo
+```
+
+The compiler is pinned to Lean 4.19.0. The package uses only its bundled
+standard library. The default build includes the regression examples.
+
+- Exact `888^888` symbolic register count, cyclic shifts, and typed tensors.
+- All six Appendix V operators transcribed as symbolic expressions.
+- A finite-sum identity recurrence with accumulation and zero-factor proofs.
+- An executable gate with whole-trace approval, memory, and clock invariants.
+- CI compilation and an audit rejecting placeholders and custom proof axioms.
+
+Read [LEAN_FORMALIZATION.md](LEAN_FORMALIZATION.md) for the source map and
+theorem guide, and [PROOF_OBLIGATIONS.md](PROOF_OBLIGATIONS.md) for remaining
+analytic and physical obligations. Formal software properties do not establish
+the manuscript's consciousness or physical claims.
 
 ## Site structure
 
@@ -10,6 +37,12 @@ This repository publishes a **dashboard-style companion site** for navigating th
 - `CODEX_ARCHITECTURE.md` — structured map of the 16 codex parts and 10 appendices
 - `CLAIMS_BOUNDARY.md` — scientific / symbolic / ethical status boundary
 - `SOURCE_NOTES.md` — book metadata and source map
+- `Codex888/` — Lean definitions and proofs
+- `Codex888Tests.lean` — kernel-checked examples, including rejected transitions
+- `Audit.lean` — compiled declaration dependency audit
+- `Main.lean` — executable finite demonstration
+- `LEAN_FORMALIZATION.md` — build instructions and theorem/source map
+- `PROOF_OBLIGATIONS.md` — explicit scope and unresolved obligations
 
 ## Reading boundary
 
