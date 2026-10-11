@@ -54,8 +54,10 @@ is not declared formalized.
   axiom. The coherence threshold is fixed at 1 before tests.
 - Regression examples include accepted traces, missing approvals, zero
   coherence, deleted/reordered memory, reversed time, and late trace failure.
-- The axiom audit traverses dependencies of project declarations and rejects
+- The axiom audit traverses dependencies of safe logical project declarations and rejects
   proof placeholders, custom axioms, and native-evaluation proof dependencies.
+  Deliberately injected public/private axioms, a placeholder, and a native proof
+  check the rejection path. Compiler-only unsafe artifacts are not logical roots.
 - A green compiler/axiom audit establishes formal checking. It is not an
   independent experiment, a full Zoo pass, or a Lean-independent proof check.
 - No named Zoo animal is redefined or claimed to have been run here. The

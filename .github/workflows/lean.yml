@@ -24,5 +24,7 @@ jobs:
           use-github-cache: false
       - name: Audit all project axioms
         run: lake env lean -DwarningAsError=true Audit.lean
+      - name: Verify audit rejects forbidden proof dependencies
+        run: python3 scripts/test_axiom_audit.py
       - name: Run the finite demonstration
         run: lake exe codex888_demo

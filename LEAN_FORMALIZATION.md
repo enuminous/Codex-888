@@ -23,10 +23,17 @@ lake exe codex888_demo
 
 `lean-toolchain` selects the pinned compiler. `lake build` includes
 `Codex888Tests`, so the negative examples are part of the default build.
-The audit permits only `propext`, `Classical.choice`, and `Quot.sound`, Lean's
+The audit traverses every safe logical declaration under `Codex888`, including
+private declarations. Compiler-only unsafe specializations are excluded because
+Lean does not allow them in kernel proofs. The audit permits only `propext`,
+`Classical.choice`, and `Quot.sound`, Lean's
 standard logical axioms. It rejects `sorryAx`, custom axioms, and
 `Lean.ofReduceBool` dependencies used by `native_decide`. The proofs use no
 placeholders or project-specific axioms.
+
+CI also verifies that the audit rejects deliberately injected public/private
+axioms, a placeholder proof, and a `native_decide` proof. These temporary probes
+are never imported into the package.
 
 ## Source and interpretation map
 
