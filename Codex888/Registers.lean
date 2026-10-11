@@ -23,7 +23,7 @@ theorem registers_length (n : Nat) : (registers n).length = base ^ n := by
   induction n with
   | zero => rfl
   | succ n ih =>
-    simp [registers, List.length_flatMap, ih, Nat.pow_succ, Nat.mul_comm]
+    simp [registers, List.length_flatMap, List.map_const', ih, Nat.pow_succ, Nat.mul_comm]
 
 theorem registers_complete (n : Nat) (r : Register n) : r ∈ registers n := by
   induction n with
@@ -37,6 +37,7 @@ theorem registers_complete (n : Nat) (r : Register n) : r ∈ registers n := by
 private theorem phases_nodup : (List.finRange base).Nodup := by
   apply List.pairwise_iff_getElem.mpr
   intro i j hi hj hij heq
+  simp only [List.getElem_finRange] at heq
   have hv : i = j := congrArg Fin.val heq
   omega
 
