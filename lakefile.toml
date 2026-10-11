@@ -1,0 +1,17 @@
+name = "codex888"
+version = "0.1.0"
+defaultTargets = ["Codex888", "Codex888Tests", "codex888_demo"]
+
+[leanOptions]
+autoImplicit = false
+warningAsError = true
+
+[[lean_lib]]
+name = "Codex888"
+
+[[lean_lib]]
+name = "Codex888Tests"
+
+[[lean_exe]]
+name = "codex888_demo"
+root = "Main"
