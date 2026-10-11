@@ -12,7 +12,7 @@ cases = [
     ("placeholder", "theorem Codex888.auditProbe : False := by sorry", "sorryAx"),
     ("native proof", "theorem Codex888.auditProbe : (1 : Nat) = 1 := by native_decide", "Lean.ofReduceBool"),
 ]
-with tempfile.TemporaryDirectory(prefix="codex888-audit-") as directory:
+with tempfile.TemporaryDirectory(prefix="AuditProbe", dir=".") as directory:
     probe = Path(directory) / "Probe.lean"
     for label, declaration, expected in cases:
         probe.write_text(source.replace(marker, declaration + "\n\n" + marker))
