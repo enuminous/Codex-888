@@ -4,10 +4,13 @@ This package gives the manuscript a reproducible Lean 4 foundation: finite
 registers, a faithful symbolic transcription of its six Appendix V operations,
 a discrete identity recurrence, and an executable transition checker.
 
-It uses **Lean 4.19.0 and its bundled standard library**, with no Mathlib or
-other package dependencies. The [Lean workflow](https://github.com/enuminous/Codex-888/actions/workflows/lean.yml)
-builds the library, checks the regression examples, audits axiom dependencies,
-and runs a small executable.
+It uses **Lean 4.28.0**. The finite core imports the bundled standard library;
+the separate `RequestProject` formalization uses **Mathlib v4.28.0**, pinned to
+`8f9d9cff6bd728b17a24e163c9402775d9e6a365` in `lake-manifest.json` together with
+the exact revisions of its transitive dependencies. The
+[Lean workflow](https://github.com/enuminous/Codex-888/actions/workflows/lean.yml)
+builds both libraries, checks the finite-core regression examples, audits the
+finite core's axiom dependencies, and runs a small executable.
 
 ## Build
 
@@ -16,20 +19,41 @@ Install [elan](https://github.com/leanprover/elan), then run:
 ```sh
 git clone https://github.com/enuminous/Codex-888.git
 cd Codex-888
+lake exe cache get
 lake build
 lake env lean -DwarningAsError=true Audit.lean
+python3 scripts/test_axiom_audit.py
 lake exe codex888_demo
 ```
 
-`lean-toolchain` selects the pinned compiler. `lake build` includes
-`Codex888Tests`, so the negative examples are part of the default build.
-The audit traverses every safe logical declaration under `Codex888`, including
+`lean-toolchain` selects the pinned compiler. Use the committed manifest; do not
+run `lake update` when reproducing this build. `lake build` includes
+`RequestProject`, `Codex888`, `Codex888Tests`, and `codex888_demo`, so both
+formalizations and the finite-core negative examples are part of the default
+build. Warnings remain errors for the finite-core libraries and executable.
+
+CI downloads Mathlib's matching precompiled cache before building. It also
+restores GitHub's Lake cache, keyed by operating system, architecture, toolchain,
+dependency manifest, and commit, with a fallback to earlier commits using the
+same pins. Cache reuse does not change the source or dependency versions. The
+45-minute job limit leaves room for downloads and build overhead. A successful
+run records its exact commit and run URL in the job summary and confirms that
+the tracked toolchain, Lake configuration, and manifest were not modified.
+
+The audit traverses every safe logical declaration under `Codex888` in the
+environment imported by `Audit.lean` (`Codex888` and `Codex888Tests`), including
 private declarations. Compiler-only unsafe specializations are excluded because
 Lean does not allow them in kernel proofs. The audit permits only `propext`,
 `Classical.choice`, and `Quot.sound`, Lean's
 standard logical axioms. It rejects `sorryAx`, custom axioms, and
 `Lean.ofReduceBool` dependencies used by `native_decide`. The proofs use no
-placeholders or project-specific axioms.
+placeholders or project-specific axioms in this finite core.
+
+`RequestProject/Codex888.lean` is built separately and is not imported by this
+audit. Its `address_space_decimal_digits` and `address_space_bits` proofs use
+`native_decide`, as already documented in `CODEX888_FINDINGS.md`; their trust
+boundary is different. A passing finite-core audit must not be reported as a
+standard-axioms-only audit of those separate results.
 
 CI also verifies that the audit rejects deliberately injected public/private
 axioms, a placeholder proof, and a `native_decide` proof. These temporary probes
